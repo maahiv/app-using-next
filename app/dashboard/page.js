@@ -1,29 +1,19 @@
-import { cookies } from "next/headers";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
-import { verifyToken } from "@/lib/auth";
-import LogoutButton from "./LogoutButton";
 
 export default async function Dashboard() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
+  const session = await getServerSession(authOptions);
 
-  if (!token) {
-    redirect("/login");
-  }
-
-  const user = await verifyToken(token);
-
-  if (!user) {
+  if (!session) {
     redirect("/login");
   }
 
   return (
     <div>
       <h1>Dashboard</h1>
-
-      <p>Welcome, {user.email}</p>
-
-      <LogoutButton />
+      <p>Welcome, {session.user?.name}</p>
+      <p>{session.user?.email}</p>
     </div>
   );
 }
