@@ -21,16 +21,45 @@ export default async function Products() {
   const data = await response.json();
 
   return (
-    <div>
-      <h1>Products Page</h1>
+    <section>
+      <div className="products-heading">
+        <p className="hero-tag">OUR COLLECTION</p>
+        <h1>Explore Products</h1>
+        <p>Discover our collection and find something perfect for you.</p>
+      </div>
 
-      {data.products.map((product) => (
-        <div key={product.id}>
-          <Link href={`/products/${product.id}`}>
-            {product.title}
-          </Link>
-        </div>
-      ))}
-    </div>
+      <div className="products-grid">
+        {data.products.map((product) => (
+          <div className="product-card" key={product.id}>
+            <div className="product-image">
+              <img src={product.thumbnail} alt={product.title} />
+            </div>
+
+            <div className="product-info">
+              <p className="product-category">{product.category}</p>
+
+              <h2>{product.title}</h2>
+
+              <p className="product-description">
+                {product.description.length > 80
+                  ? product.description.slice(0, 80) + "..."
+                  : product.description}
+              </p>
+
+              <div className="product-bottom">
+                <span className="price">${product.price}</span>
+
+                <Link
+                  href={`/products/${product.id}`}
+                  className="view-btn"
+                >
+                  View Details
+                </Link>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }

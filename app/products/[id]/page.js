@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -39,17 +39,42 @@ export default async function Product({ params }) {
   const product = await response.json();
 
   return (
-    <div>
-      <h1>{product.title}</h1>
+    <section className="product-detail">
+      <Link href="/products" className="back-link">
+        ← Back to Products
+      </Link>
 
-      <p>{product.description}</p>
+      <div className="detail-card">
+        <div className="detail-image">
+          <img src={product.thumbnail} alt={product.title} />
+        </div>
 
-      <Image
-        src="/product.jpg"
-        alt={product.title}
-        width={300}
-        height={300}
-      />
-    </div>
+        <div className="detail-content">
+          <p className="product-category">{product.category}</p>
+
+          <h1>{product.title}</h1>
+
+          <div className="rating">
+            ⭐ {product.rating} / 5
+          </div>
+
+          <p className="detail-description">
+            {product.description}
+          </p>
+
+          <div className="detail-price">${product.price}</div>
+
+          <div className="stock">
+            {product.stock > 0
+              ? `✓ In Stock (${product.stock} available)`
+              : "Out of Stock"}
+          </div>
+
+          <Link href="/products" className="shop-btn">
+            Continue Shopping
+          </Link>
+        </div>
+      </div>
+    </section>
   );
 }

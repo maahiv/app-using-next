@@ -8,7 +8,11 @@ export default function AuthButton() {
   const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
-    setLoggedIn(document.cookie.includes("loggedIn=true"));
+    const isLoggedIn = document.cookie
+      .split("; ")
+      .some((cookie) => cookie === "loggedIn=true");
+
+    setLoggedIn(isLoggedIn);
   }, []);
 
   const handleLogout = () => {
@@ -21,11 +25,18 @@ export default function AuthButton() {
   };
 
   if (loggedIn) {
-    return <button onClick={handleLogout}>Logout</button>;
+    return (
+      <button className="logout-btn" onClick={handleLogout}>
+        Logout
+      </button>
+    );
   }
 
   return (
-    <button onClick={() => router.push("/login")}>
+    <button
+      className="login-btn"
+      onClick={() => router.push("/login")}
+    >
       Login
     </button>
   );
