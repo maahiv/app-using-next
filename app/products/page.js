@@ -3,8 +3,8 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export const metadata = {
-  title: "Products Store - Products List",
-  description: "Browse all products in Products Store",
+  title: "Products Store - Makeup Collection",
+  description: "Explore our makeup and beauty products.",
 };
 
 export default async function Products() {
@@ -14,29 +14,41 @@ export default async function Products() {
     redirect("/login");
   }
 
-  const response = await fetch("https://dummyjson.com/products", {
-    next: { revalidate: 60 },
-  });
+  const response = await fetch(
+    "https://dummyjson.com/products/category/beauty",
+    {
+      next: { revalidate: 60 },
+    }
+  );
 
   const data = await response.json();
 
   return (
     <section>
       <div className="products-heading">
-        <p className="hero-tag">OUR COLLECTION</p>
-        <h1>Explore Products</h1>
-        <p>Discover our collection and find something perfect for you.</p>
+        <p className="hero-tag">BEAUTY COLLECTION</p>
+
+        <h1>Makeup & Beauty</h1>
+
+        <p>
+          Discover our collection of makeup and beauty essentials.
+        </p>
       </div>
 
       <div className="products-grid">
         {data.products.map((product) => (
           <div className="product-card" key={product.id}>
             <div className="product-image">
-              <img src={product.thumbnail} alt={product.title} />
+              <img
+                src={product.thumbnail}
+                alt={product.title}
+              />
             </div>
 
             <div className="product-info">
-              <p className="product-category">{product.category}</p>
+              <p className="product-category">
+                {product.category}
+              </p>
 
               <h2>{product.title}</h2>
 
@@ -47,7 +59,9 @@ export default async function Products() {
               </p>
 
               <div className="product-bottom">
-                <span className="price">${product.price}</span>
+                <span className="price">
+                  ${product.price}
+                </span>
 
                 <Link
                   href={`/products/${product.id}`}
