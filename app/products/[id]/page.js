@@ -1,6 +1,14 @@
 import Image from "next/image";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export default async function Product({ params }) {
+  const cookieStore = await cookies();
+
+  if (cookieStore.get("loggedIn")?.value !== "true") {
+    redirect("/login");
+  }
+
   const { id } = await params;
 
   return (

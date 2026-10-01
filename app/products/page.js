@@ -1,6 +1,14 @@
 import Link from "next/link";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export default async function Products() {
+  const cookieStore = await cookies();
+
+  if (cookieStore.get("loggedIn")?.value !== "true") {
+    redirect("/login");
+  }
+
   const response = await fetch("https://dummyjson.com/products", {
     next: { revalidate: 60 },
   });
