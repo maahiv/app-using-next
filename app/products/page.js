@@ -2,6 +2,11 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
+export const metadata = {
+  title: "Products Store - Products List",
+  description: "Browse all products in Products Store",
+};
+
 export default async function Products() {
   const cookieStore = await cookies();
 
